@@ -296,6 +296,12 @@ func (bridge *BridgeServer) connectToNATS() error {
 		options = append(options, nats.ClientCert(config.TLS.Cert, config.TLS.Key))
 	}
 
+	if config.CredsFile != "" {
+		options = append(options, nats.UserCredentials(config.CredsFile))
+	} else {
+		bridge.logger.Noticef("No creds file is provided for authentication to NATS")
+	}
+
 	nc, err := nats.Connect(strings.Join(config.Servers, ","),
 		options...,
 	)

@@ -113,6 +113,8 @@ type MQConfig struct {
 type NATSConfig struct {
 	Servers []string
 
+	CredsFile string
+
 	ConnectTimeout int //milliseconds
 	ReconnectWait  int //milliseconds
 	MaxReconnects  int
