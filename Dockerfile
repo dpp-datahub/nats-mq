@@ -5,10 +5,17 @@ LABEL maintainer "Stephen Asbury <sasbury@nats.io>"
 LABEL "ProductName"="NATS-MQ Bridge" \
       "ProductVersion"="0.5"
 
+RUN apt-get install -y ca-certificates
+COPY ./ZscalerRootCertificate-2048-SHA256.crt /usr/local/share/ca-certificates/
+COPY ./vw-root.pem /usr/local/share/ca-certificates/
+COPY ./tls.crt /usr/local/share/ca-certificates/
+
+RUN update-ca-certificates
+
 # Install the MQ client from the Redistributable package. This also
 # contains the header files we need to compile against.
 RUN mkdir -p /opt/mqm && cd /opt/mqm \
- && curl -LO "https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqdev/redist/9.1.2.0-IBM-MQC-Redist-LinuxX64.tar.gz" \
+ && curl -LO "https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqdev/redist/9.2.0.0-IBM-MQC-Redist-LinuxX64.tar.gz" \
  && tar -zxf ./*.tar.gz \
  && rm -f ./*.tar.gz
 
@@ -32,3 +39,4 @@ RUN cd /nats-mq && go mod download && go install ./...
 
 # Run the bridge
 ENTRYPOINT ["/go/bin/nats-mq","-c","/mqbridge.conf"]
+# ENTRYPOINT ["/bin/bash"]
