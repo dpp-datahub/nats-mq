@@ -5,6 +5,7 @@ LABEL maintainer "Stephen Asbury <sasbury@nats.io>"
 LABEL "ProductName"="NATS-MQ Bridge" \
       "ProductVersion"="0.5"
 
+# Copying certs for testing purposes
 RUN apt-get install -y ca-certificates
 COPY ./ZscalerRootCertificate-2048-SHA256.crt /usr/local/share/ca-certificates/
 COPY ./vw-root.pem /usr/local/share/ca-certificates/
@@ -34,6 +35,9 @@ RUN mkdir -p /nats-mq \
 COPY . /nats-mq
 RUN rm -rf /nats-mq/build /nats-mq/.vscode
 RUN chmod -R a+rx /nats-mq
+
+# Copy creds file to nats-mq container
+COPY ./default.creds /etc/nats/dev/
 
 RUN cd /nats-mq && go mod download && go install ./...
 
