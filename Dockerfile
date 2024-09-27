@@ -8,8 +8,6 @@ LABEL "ProductName"="NATS-MQ Bridge" \
 # Copying certs for testing purposes
 RUN apt-get install -y ca-certificates
 COPY ./ZscalerRootCertificate-2048-SHA256.crt /usr/local/share/ca-certificates/
-COPY ./vw-root.pem /usr/local/share/ca-certificates/
-COPY ./tls.crt /usr/local/share/ca-certificates/
 
 RUN update-ca-certificates
 
@@ -36,11 +34,7 @@ COPY . /nats-mq
 RUN rm -rf /nats-mq/build /nats-mq/.vscode
 RUN chmod -R a+rx /nats-mq
 
-# Copy creds file to nats-mq container
-COPY ./default.creds /etc/nats/dev/
-
 RUN cd /nats-mq && go mod download && go install ./...
 
 # Run the bridge
 ENTRYPOINT ["/go/bin/nats-mq","-c","/mqbridge.conf"]
-# ENTRYPOINT ["/bin/bash"]
