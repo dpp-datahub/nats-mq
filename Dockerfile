@@ -48,16 +48,19 @@ WORKDIR /home/natsmq
 
 # Copy the nats-mq binary and MQ libraries from the builder stage
 COPY --from=builder /go/bin/nats-mq /usr/local/bin/nats-mq
-COPY --from=builder /opt/mqm/lib64/libmqm_r.so /usr/local/lib/libmqm_r.so
-COPY --from=builder /opt/mqm/lib64/libmqmcs_r.so /usr/local/lib/libmqmcs_r.so
-COPY --from=builder /opt/mqm/lib64/libmqz_r.so /usr/local/lib/libmqz_r.so
-COPY --from=builder /opt/mqm/lib64/libmqe_r.so /usr/local/lib/libmqe_r.so
+COPY --from=builder /opt/mqm/lib64/* /opt/mqm/lib64
+COPY --from=builder /opt/mqm/samp/ccsid_part2.tbl /opt/mqm/samp/ccsid_part2.tbl
+
+# COPY --from=builder /opt/mqm/lib64/libmqm_r.so /usr/local/lib64/libmqm_r.so
+# COPY --from=builder /opt/mqm/lib64/libmqmcs_r.so /usr/local/lib64/libmqmcs_r.so
+# COPY --from=builder /opt/mqm/lib64/libmqz_r.so /usr/local/lib64/libmqz_r.so
+# COPY --from=builder /opt/mqm/lib64/libmqe_r.so /usr/local/lib64/libmqe_r.so
 
 # Set the library path
-ENV LD_LIBRARY_PATH=/usr/local/lib
+ENV LD_LIBRARY_PATH=/opt/mqm/lib64
 
 # Change ownership of the binary and libraries to the non-root user
-RUN chown natsmq:natsmq /usr/local/bin/nats-mq /usr/local/lib/libmqm_r.so /usr/local/lib/libmqmcs_r.so /usr/local/lib/libmqz_r.so /usr/local/lib/libmqe_r.so
+RUN chown -R natsmq:natsmq /usr/local/bin/nats-mq /opt/mqm/
 
 # Switch to the non-root user
 USER natsmq
