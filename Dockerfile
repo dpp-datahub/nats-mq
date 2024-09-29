@@ -46,15 +46,17 @@ RUN mkdir -p /IBM/MQ/data/errors \
 
 WORKDIR /home/natsmq
 
+RUN mkdir -p /opt/mqm/lib
+RUN mkdir -p /opt/mqm/lib64
+RUN mkdir -p /opt/mqm/samp
+RUN mkdir -p /opt/mqm/msg
+
 # Copy the nats-mq binary and MQ libraries from the builder stage
 COPY --from=builder /go/bin/nats-mq /usr/local/bin/nats-mq
 COPY --from=builder /opt/mqm/lib64/* /opt/mqm/lib64
+COPY --from=builder /opt/mqm/msg/* /opt/mqm/msg
+COPY --from=builder /opt/mqm/lib/ccsid.tbl /opt/mqm/lib/ccsid.tbl
 COPY --from=builder /opt/mqm/samp/ccsid_part2.tbl /opt/mqm/samp/ccsid_part2.tbl
-
-# COPY --from=builder /opt/mqm/lib64/libmqm_r.so /usr/local/lib64/libmqm_r.so
-# COPY --from=builder /opt/mqm/lib64/libmqmcs_r.so /usr/local/lib64/libmqmcs_r.so
-# COPY --from=builder /opt/mqm/lib64/libmqz_r.so /usr/local/lib64/libmqz_r.so
-# COPY --from=builder /opt/mqm/lib64/libmqe_r.so /usr/local/lib64/libmqe_r.so
 
 # Set the library path
 ENV LD_LIBRARY_PATH=/opt/mqm/lib64
