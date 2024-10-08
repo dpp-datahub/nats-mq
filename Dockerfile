@@ -1,5 +1,5 @@
 # Stage 1: Build the binary
-FROM golang:1.12.4 AS builder
+FROM golang:1.15 AS builder
 
 LABEL maintainer="Stephen Asbury <sasbury@nats.io>"
 LABEL "ProductName"="NATS-MQ Bridge" \
