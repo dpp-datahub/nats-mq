@@ -32,8 +32,8 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
 	go.etcd.io/bbolt v1.3.11 // indirect
-	golang.org/x/crypto v0.28.0 // indirect
-	golang.org/x/sys v0.26.0 // indirect
+	golang.org/x/crypto v0.31.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
 	golang.org/x/time v0.7.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
