@@ -16,6 +16,8 @@
 package core
 
 import (
+	"fmt"
+
 	"github.com/ibm-messaging/mq-golang/v5/ibmmq"
 	"github.com/nats-io/nats-mq/nats-mq/conf"
 )
@@ -23,6 +25,8 @@ import (
 // ConnectToQueueManager utility to connect to a queue manager from a configuration
 func ConnectToQueueManager(mqconfig conf.MQConfig) (*ibmmq.MQQueueManager, error) {
 	qMgrName := mqconfig.QueueManager
+
+	fmt.Printf("MQ Connection options:\n %+v \n", mqconfig)
 
 	connectionOptions := ibmmq.NewMQCNO()
 	channelDefinition := ibmmq.NewMQCD()
@@ -42,7 +46,12 @@ func ConnectToQueueManager(mqconfig conf.MQConfig) (*ibmmq.MQQueueManager, error
 		tlsParams.CertificateLabel = mqconfig.CertificateLabel
 		connectionOptions.SSLConfig = tlsParams
 
-		channelDefinition.SSLCipherSpec = "TLS_RSA_WITH_AES_128_CBC_SHA256"
+		if mqconfig.SSLCipherSpec != "" {
+			channelDefinition.SSLCipherSpec = mqconfig.SSLCipherSpec
+		} else {
+			channelDefinition.SSLCipherSpec = "TLS_RSA_WITH_AES_128_CBC_SHA256"
+
+		}
 		channelDefinition.SSLPeerName = mqconfig.SSLPeerName
 		channelDefinition.CertificateLabel = mqconfig.CertificateLabel
 		channelDefinition.SSLClientAuth = int32(ibmmq.MQSCA_REQUIRED)
