@@ -9,7 +9,7 @@ LABEL "ProductName"="NATS-MQ Bridge" \
 # Install the MQ client from the Redistributable package. This also
 # contains the header files we need to compile against.
 RUN mkdir -p /opt/mqm && cd /opt/mqm \
- && curl -LO "https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqdev/redist/9.4.1.0-IBM-MQC-Redist-LinuxX64.tar.gz" \
+ && curl -k -LO "https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqdev/redist/9.4.2.0-IBM-MQC-Redist-LinuxX64.tar.gz" \
  && tar -zxf ./*.tar.gz \
  && rm -f ./*.tar.gz
 
