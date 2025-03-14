@@ -16,8 +16,6 @@
 package core
 
 import (
-	"fmt"
-
 	"github.com/ibm-messaging/mq-golang/v5/ibmmq"
 	"github.com/nats-io/nats-mq/nats-mq/conf"
 )
@@ -25,8 +23,6 @@ import (
 // ConnectToQueueManager utility to connect to a queue manager from a configuration
 func ConnectToQueueManager(mqconfig conf.MQConfig) (*ibmmq.MQQueueManager, error) {
 	qMgrName := mqconfig.QueueManager
-
-	fmt.Printf("MQ Connection options:\n %+v \n", mqconfig)
 
 	connectionOptions := ibmmq.NewMQCNO()
 	channelDefinition := ibmmq.NewMQCD()
