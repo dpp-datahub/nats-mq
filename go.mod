@@ -3,7 +3,7 @@ module github.com/nats-io/nats-mq
 go 1.22.1
 
 require (
-	github.com/ibm-messaging/mq-golang/v5 v5.6.1
+	github.com/ibm-messaging/mq-golang/v5 v5.6.2
 	github.com/nats-io/nats-server/v2 v2.10.22
 	github.com/nats-io/nats-streaming-server v0.25.6
 	github.com/nats-io/nats.go v1.37.0

@@ -9,7 +9,7 @@ LABEL "ProductName"="NATS-MQ Bridge" \
 # Install the MQ client from the Redistributable package. This also
 # contains the header files we need to compile against.
 RUN mkdir -p /opt/mqm && cd /opt/mqm \
- && curl -LO "https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqdev/redist/9.4.1.0-IBM-MQC-Redist-LinuxX64.tar.gz" \
+ && curl -k -LO "https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqdev/redist/9.4.2.0-IBM-MQC-Redist-LinuxX64.tar.gz" \
  && tar -zxf ./*.tar.gz \
  && rm -f ./*.tar.gz
 
@@ -45,15 +45,19 @@ WORKDIR /home/natsmq
 
 RUN mkdir -p /opt/mqm/lib
 RUN mkdir -p /opt/mqm/lib64
+RUN mkdir -p /opt/mqm/gskit8/lib64
 RUN mkdir -p /opt/mqm/samp
 RUN mkdir -p /opt/mqm/msg
+RUN mkdir -p /usr/share/locale
 
 # Copy the nats-mq binary and MQ libraries from the builder stage
 COPY --from=builder /go/bin/nats-mq /usr/local/bin/nats-mq
 COPY --from=builder /opt/mqm/lib64/* /opt/mqm/lib64
+COPY --from=builder /opt/mqm/gskit8/* /opt/mqm/gskit8/lib64
 COPY --from=builder /opt/mqm/msg/* /opt/mqm/msg
 COPY --from=builder /opt/mqm/lib/ccsid.tbl /opt/mqm/lib/ccsid.tbl
 COPY --from=builder /opt/mqm/samp/ccsid_part2.tbl /opt/mqm/samp/ccsid_part2.tbl
+COPY --from=builder /usr/share/locale/* /usr/share/locale
 
 # Set the library path
 ENV LD_LIBRARY_PATH=/opt/mqm/lib64
