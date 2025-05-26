@@ -1,5 +1,5 @@
 # Stage 1: Build the binary
-FROM golang:1.22 AS builder
+FROM golang:1.23 AS builder
 
 LABEL maintainer "Stephen Asbury <sasbury@nats.io>"
 
