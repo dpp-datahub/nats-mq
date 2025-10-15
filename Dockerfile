@@ -1,7 +1,7 @@
 # Stage 1: Build the binary
 FROM golang:1.23 AS builder
 
-LABEL maintainer "Stephen Asbury <sasbury@nats.io>"
+LABEL maintainer="Stephen Asbury <sasbury@nats.io>"
 
 LABEL "ProductName"="NATS-MQ Bridge" \
       "ProductVersion"="0.5"
@@ -9,7 +9,7 @@ LABEL "ProductName"="NATS-MQ Bridge" \
 # Install the MQ client from the Redistributable package. This also
 # contains the header files we need to compile against.
 RUN mkdir -p /opt/mqm && cd /opt/mqm \
- && curl -k -LO "https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqdev/redist/9.4.2.0-IBM-MQC-Redist-LinuxX64.tar.gz" \
+ && curl -LO "https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqdev/redist/9.4.2.0-IBM-MQC-Redist-LinuxX64.tar.gz" \
  && tar -zxf ./*.tar.gz \
  && rm -f ./*.tar.gz
 
